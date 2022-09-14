@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Pellet : ProjectileBase
 {
+
+    [SerializeField] int _damage;
+    [SerializeField] float _lifeDuration;
     protected override void Impact(Collision otherCollision)
     {
-        Enemy _isEnemy = GetComponent<Enemy>();
-        if (_isEnemy != null)
+        Player _isPlayer = GetComponent<Player>();
+        if (_isPlayer != null)
         {
             Destroy(gameObject);
+            _isPlayer.DecreaseHealth(_damage);
         }
     }
 
@@ -18,4 +22,8 @@ public class Pellet : ProjectileBase
         base.Move();
     }
 
+    private void Awake()
+    {
+        Destroy(this.gameObject, _lifeDuration);
+    }
 }

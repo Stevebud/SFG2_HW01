@@ -37,4 +37,10 @@ public abstract class ProjectileBase : MonoBehaviour
         Vector3 moveOffset = transform.forward * speed;
         _rigidBody.MovePosition(_rigidBody.position + moveOffset);
     }
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
 }
