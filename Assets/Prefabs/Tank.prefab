@@ -79,6 +79,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 0.25
   _turnSpeed: 2
+  _projectileSpawn: {fileID: 5910434700464837272}
+  _projectile: {fileID: 2572360071817682478, guid: 1881966983dd02e46a7ba8606769e0f5, type: 3}
+  _fireCooldown: 1
+  _fireParticles: {fileID: 0}
+  _fireAudio: {fileID: 8300000, guid: c31a68358942bad478d317c8e1e47976, type: 3}
 --- !u!114 &1832687112608420635
 MonoBehaviour:
   m_ObjectHideFlags: 0

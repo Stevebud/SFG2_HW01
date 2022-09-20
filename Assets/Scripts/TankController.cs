@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour
 {
+    //movement fields
     [SerializeField] float _maxSpeed = .25f;
     [SerializeField] float _turnSpeed = 2f;
+
+    //weapon fields
+    [SerializeField] Transform _projectileSpawn;
+    [SerializeField] GameObject _projectile;
+    [SerializeField] float _fireCooldown = 1f;
+    [SerializeField] ParticleSystem _fireParticles;
+    [SerializeField] AudioClip _fireAudio;
+
+    private float _nextFire;
 
     public float MaxSpeed
     {
@@ -19,6 +29,12 @@ public class TankController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        //get inputs for tank
+        Fire();
     }
 
     private void FixedUpdate()
@@ -46,5 +62,33 @@ public class TankController : MonoBehaviour
         Quaternion turnOffset = Quaternion.Euler(0, turnAmountThisFrame, 0);
         // apply quaternion to the rigidbody
         _rb.MoveRotation(_rb.rotation * turnOffset);
+    }
+
+    private void Fire()
+    {
+        bool _firePressed = Input.GetKeyDown(KeyCode.Space);
+        if (_firePressed && (_nextFire <= Time.time))
+        {
+            if(_projectileSpawn != null)
+            {
+                //Instantiate projectile at _projectileSpawn
+                if (_projectile != null)
+                {
+                    Instantiate(_projectile, _projectileSpawn.position, _projectileSpawn.rotation);
+                }
+                //Visual and Audio Feedback
+                if (_fireParticles != null)
+                {
+                    ParticleSystem particles = Instantiate(_fireParticles, _projectileSpawn.position, _projectileSpawn.rotation);
+                    Destroy(particles.gameObject, particles.main.duration);
+                }
+                if (_fireAudio != null)
+                {
+                    AudioHelper.PlayClip2D(_fireAudio, 1);
+                }
+            }
+            //set next fire time
+            _nextFire = Time.time+_fireCooldown;
+        }
     }
 }

@@ -19,15 +19,17 @@ public static class AudioHelper
         return audioSource;
     }
 
-    public static AudioSource PlayClip3D(AudioClip clip, float volume)
+    public static AudioSource PlayClip3D(AudioClip clip, float volume, Vector3 position)
     {
         //create
-        GameObject audioObject = new GameObject("Audio2D");
+        GameObject audioObject = new GameObject("Audio3D");
         AudioSource audioSource = audioObject.AddComponent<AudioSource>();
         //configure
         audioSource.spatialBlend = 1f;
         audioSource.clip = clip;
         audioSource.volume = volume;
+        //move the audio object to where it should be played
+        audioObject.transform.Translate(position, Space.World);
         //activate
         audioSource.Play();
         Object.Destroy(audioObject, clip.length);

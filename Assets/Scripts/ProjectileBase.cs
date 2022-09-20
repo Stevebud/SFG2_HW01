@@ -28,6 +28,7 @@ public abstract class ProjectileBase : MonoBehaviour
         if (impact_particles != null)
         {
             impact_particles = Instantiate(impact_particles, transform.position, Quaternion.identity);
+            Destroy(impact_particles.gameObject, impact_particles.main.duration);
         }
     }
 
