@@ -1,5 +1,151 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &60887172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 60887173}
+  - component: {fileID: 60887175}
+  - component: {fileID: 60887174}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &60887173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60887172}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0.7}
+  m_LocalScale: {x: 0.11732437, y: 0.16645378, z: 0.12607208}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 296567445}
+  m_Father: {fileID: 2231746983443561160}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!33 &60887175
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60887172}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &60887174
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60887172}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: dd695d02e347f8142b9e742f61121c77, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &296567444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296567445}
+  m_Layer: 0
+  m_Name: BarrelEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &296567445
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296567444}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.35, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 60887173}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1428663206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1428663207}
+  m_Layer: 0
+  m_Name: BombDropper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1428663207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428663206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2231746983443561160}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2231746983019249533
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +386,8 @@ Transform:
   - {fileID: 2231746984845550254}
   - {fileID: 2231746984643413704}
   - {fileID: 2231746983844754789}
+  - {fileID: 60887173}
+  - {fileID: 1428663207}
   m_Father: {fileID: 2231746983019249532}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -471,6 +619,9 @@ GameObject:
   - component: {fileID: 2231746983750869175}
   - component: {fileID: 1854970263}
   - component: {fileID: 3248686416481895624}
+  - component: {fileID: 2231746984464988451}
+  - component: {fileID: 2231746984464988455}
+  - component: {fileID: 2231746984464988456}
   m_Layer: 0
   m_Name: BossHelicopter
   m_TagString: Untagged
@@ -519,12 +670,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d1a1cc5f5fc5b4b8c4a2e5115310a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 1
+  _rb: {fileID: 3248686416481895624}
+  _bossHealth: {fileID: 2231746984464988451}
+  _wb: {fileID: 2231746984464988455}
+  _bombSystem: {fileID: 2231746984464988456}
+  _movementSpeed: 0.3
+  _rotationSpeed: 3
   _rotor: {fileID: 2231746984107570050}
   _tailRotor: {fileID: 2231746984041690635}
-  _flyingRotorSpeed: 0
-  _standbyRotorSpeed: 0
+  _flyingRotorSpeed: 20
+  _standbyRotorSpeed: 4
+  _landingSpot: {fileID: 0}
+  _takeoffSpot: {fileID: 0}
   _northEast_Low: {fileID: 0}
+  _northWest_Low: {fileID: 0}
+  _southEast_Low: {fileID: 0}
+  _southWest_Low: {fileID: 0}
+  _north_Low: {fileID: 0}
+  _east_Low: {fileID: 0}
+  _south_Low: {fileID: 0}
+  _west_Low: {fileID: 0}
+  _northEast_High: {fileID: 0}
+  _northWest_High: {fileID: 0}
+  _southEast_High: {fileID: 0}
+  _southWest_High: {fileID: 0}
 --- !u!54 &3248686416481895624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -535,12 +704,67 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_AngularDrag: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &2231746984464988451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231746983750869173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfb2779e98e7fc4895101509beeb255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 5
+  _damageAudio: {fileID: 8300000, guid: 5264cba7b97e00147a6c9acfc51edd96, type: 3}
+  _damageParticles: {fileID: 4802386625483298643, guid: 31628f4e890986944b487b8b3e607d82, type: 3}
+  _damageFlashImage: {fileID: 0}
+  _flashDuration: 1
+  _maxFlash: 0.5
+  _deathAudio: {fileID: 8300000, guid: 6fd453e96dc42864b94666d1df360f21, type: 3}
+  _deathParticles: {fileID: 5790376238546099893, guid: 274c1b0316721ce4eb5d8baca388d88b, type: 3}
+--- !u!114 &2231746984464988455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231746983750869173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f322be33c655543a147ab4313db668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectileSpawn: {fileID: 296567445}
+  _projectile: {fileID: 4521921202661437889, guid: 4de07fc8a8e512f4cb16c99916707396, type: 3}
+  _fireRate: 120
+  _fireParticles: {fileID: 7188710594026231514, guid: 71cc92c21ae26fc468f7088acc159c45, type: 3}
+  _fireAudio: {fileID: 8300000, guid: 39f003cebbde238439dbe428178fe6bc, type: 3}
+--- !u!114 &2231746984464988456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231746983750869173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9880aee77a047ee4b91205f8c68b9320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectileSpawn: {fileID: 1428663207}
+  _projectile: {fileID: 4949764915676870277, guid: 051c4d5583a13fb4dbe61d772937fa97, type: 3}
+  _fireRate: 60
+  _fireParticles: {fileID: 8582105800114047030, guid: d4ca9eda1fbd95649b714cc8e13de02a, type: 3}
+  _fireAudio: {fileID: 8300000, guid: cd3897218a5e1a042ab4ddf9f391739a, type: 3}
+  _playerTransform: {fileID: 0}
 --- !u!1 &2231746983844754786
 GameObject:
   m_ObjectHideFlags: 0

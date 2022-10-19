@@ -34,9 +34,9 @@ public class Pellet : ProjectileBase
         GameObject split1 = Instantiate(_projectile, this.gameObject.transform.position, this.gameObject.transform.rotation);
         GameObject split2 = Instantiate(_projectile, this.gameObject.transform.position, this.gameObject.transform.rotation);
         split1.transform.Rotate(0, 135, 0);
-        split1.transform.localScale = this.transform.localScale / 2;
+        split1.transform.Translate(split1.transform.forward * 2, Space.World);
         split2.transform.Rotate(0, 215, 0);
-        split2.transform.localScale = this.transform.localScale / 2;
+        split2.transform.Translate(split2.transform.forward * 2, Space.World);
         Destroy(this.gameObject);
     }
 }

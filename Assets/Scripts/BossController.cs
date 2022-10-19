@@ -6,6 +6,9 @@ public class BossController : MonoBehaviour
 {
     //references to fill
     [SerializeField] Rigidbody _rb;
+    [SerializeField] Health _bossHealth;
+    [SerializeField] WeaponBase _wb;
+    [SerializeField] WeaponBombs _bombSystem;
 
     [SerializeField] float _movementSpeed;
     [SerializeField] float _rotationSpeed;
@@ -24,10 +27,26 @@ public class BossController : MonoBehaviour
     [SerializeField] Transform _southEast_Low;
     [SerializeField] Transform _southWest_Low;
 
+    [SerializeField] Transform _north_Low;
+    [SerializeField] Transform _east_Low;
+    [SerializeField] Transform _south_Low;
+    [SerializeField] Transform _west_Low;
+
+    [SerializeField] Transform _northEast_High;
+    [SerializeField] Transform _northWest_High;
+    [SerializeField] Transform _southEast_High;
+    [SerializeField] Transform _southWest_High;
+
     private bool isFlying = false;
     private float _rotorSpeed;
     private int phase = 0;
     private Vector3 _targetLocation;
+    private bool _attacking;
+    private float _maxMovementSpeed;
+
+    //North is 0, East is 90, South is 180, West is 270
+    private float _directionToFace;
+    
     private int pointsReached;
 
     //Phase 0- landed/standby
@@ -35,6 +54,8 @@ public class BossController : MonoBehaviour
     //Phase 2- dropping bombs from above the arena
     //Phase 3- spinning around, moving around arena shooting
 
+    //Dictionary that contains Euler value for cardinal directions
+    Dictionary<char, float> directions = new Dictionary<char, float>();
 
     private void Start()
     {
@@ -42,16 +63,20 @@ public class BossController : MonoBehaviour
         isFlying = false;
         _rotorSpeed = _standbyRotorSpeed;
         _targetLocation = _takeoffSpot.position;
-        phase = 1;
-        pointsReached = 0;
 
-        /*
+        phase = 2;//CHANGE
+
+        _directionToFace = transform.rotation.eulerAngles.y;
+        pointsReached = 0;
+        _maxMovementSpeed = _movementSpeed;
+
         //initialize values in the directions dictionary
         directions.Add('n', 0f);
         directions.Add('e', 90f);
         directions.Add('s', 180f);
-        directions.Add('w', -90f);
+        directions.Add('w', 270f);
 
+        /*
         //initialize values in the movementPoints dictionary
         movementPoints.Add("ne_low", _northEast_Low.position);
         movementPoints.Add("nw_low", _northWest_Low.position);
@@ -59,7 +84,15 @@ public class BossController : MonoBehaviour
         movementPoints.Add("sw_low", _southWest_Low.position);
         */
 
-        Takeoff();
+        StartCoroutine(Takeoff());
+    }
+
+    private void Update()
+    {
+        if(phase == 1 && _attacking)
+        {
+            Shoot();
+        }
     }
 
     private void FixedUpdate()
@@ -68,14 +101,29 @@ public class BossController : MonoBehaviour
         if (isFlying)
         {
             MoveToTarget();
+            if(phase == 1)
+            {
+                RotateToFace();
+            }
         }
     }
     //Takeoff function that begins spinning _rotor and _tailRotor and increases altitude
-    private void Takeoff()
+    private IEnumerator Takeoff()
     {
+        Debug.Log("Taking Off!");
+        yield return new WaitForSeconds(3f);
         isFlying = true;
         _rotorSpeed = _flyingRotorSpeed;
         _targetLocation = _takeoffSpot.position;
+        _directionToFace = directions['s'];
+        if(phase == 2)
+        {
+            _movementSpeed = _maxMovementSpeed / 2;
+        }
+        else
+        {
+            _movementSpeed = _maxMovementSpeed;
+        }
     }
 
     //Land function that decreases altitude and stops _rotor and _tailRotor from spinning
@@ -84,6 +132,23 @@ public class BossController : MonoBehaviour
         _targetLocation = _landingSpot.position;
         _rotorSpeed = _standbyRotorSpeed;
         pointsReached = 0;
+        _directionToFace = directions['s'];
+        if (Phase3Check())
+        {
+            phase = 3;
+        }
+        else
+        {
+            float randomNum = Random.value;
+            if(randomNum < 0.1)
+            {
+                phase = 1;
+            }
+            else
+            {
+                phase = 2;
+            }
+        }
     }
 
     //GeneratePoint function that returns a useable point based on given requirements
@@ -91,9 +156,11 @@ public class BossController : MonoBehaviour
     {
         float randomNum = Random.value;
         //if the boss is landed and should now be moving, takeoff
-        if (phase != 0 && !isFlying)
+        if (_targetLocation == _landingSpot.position)
         {
-            Takeoff();
+            isFlying = false;
+            StartCoroutine(Takeoff());
+            _directionToFace = directions['s'];
         } 
         //else, if phase 1 (moving around edge of stage)
         else if(phase == 1)
@@ -105,64 +172,68 @@ public class BossController : MonoBehaviour
                 //please forgive me for the following wall of if statements
                 if (_targetLocation == _northEast_Low.position)
                 {
-                    if (randomNum >= 0.5)
+                    if (randomNum >= 0.5f)
                     {
                         _targetLocation = _northWest_Low.position;
+                        _directionToFace = 180f;//face south
                     }
                     else
                     {
                         _targetLocation = _southEast_Low.position;
+                        _directionToFace = 270f;//face west
                     }
                 }
                 else if (_targetLocation == _northWest_Low.position)
                 {
-                    if (randomNum >= 0.5)
+                    if (randomNum >= 0.5f)
                     {
                         _targetLocation = _northEast_Low.position;
+                        _directionToFace = 180f;
                     }
                     else
                     {
                         _targetLocation = _southWest_Low.position;
+                        _directionToFace = 90f;
                     }
                 }
                 else if (_targetLocation == _southEast_Low.position)
                 {
-                    if (randomNum >= 0.5)
+                    if (randomNum >= 0.5f)
                     {
                         _targetLocation = _northEast_Low.position;
+                        _directionToFace = 270f;
                     }
                     else
                     {
                         _targetLocation = _southWest_Low.position;
+                        _directionToFace = 0f;
                     }
                 }
                 else if (_targetLocation == _southWest_Low.position)
                 {
-                    if (randomNum >= 0.5)
+                    if (randomNum >= 0.5f)
                     {
                         _targetLocation = _northWest_Low.position;
+                        _directionToFace = directions['e'];
                     }
                     else
                     {
                         _targetLocation = _southEast_Low.position;
+                        _directionToFace = directions['n'];
                     }
-                }
-                else if (_targetLocation == _landingSpot.position)
-                {
-                    _targetLocation = _takeoffSpot.position;
                 }
                 else
                 {
                     //if the boss is at _takeoffSpot
-                    if (randomNum < 0.25)
+                    if (randomNum <= 0.4f)
                     {
                         _targetLocation = _northEast_Low.position;
                     }
-                    else if(randomNum <= 0.5)
+                    else if(randomNum <= 0.8f)
                     {
                         _targetLocation = _northWest_Low.position;
                     }
-                    else if (randomNum < 0.75)
+                    else if (randomNum < 0.9f)
                     {
                         _targetLocation = _southWest_Low.position;
                     }
@@ -178,12 +249,116 @@ public class BossController : MonoBehaviour
                 {
                     Land();
                 }
+                else//return back to get ready to land
+                {
+                    _targetLocation = _takeoffSpot.position;
+                }
+            }
+        }//end of if Phase 1
+        else if(phase == 2)// if the boss should be flying above the arena dropping bombs
+        {
+            if(pointsReached < 10)
+            {
+                if (_targetLocation == _takeoffSpot.position)
+                {
+                    //if the boss is at _takeoffSpot
+                    if (randomNum <= 0.4f)
+                    {
+                        _targetLocation = _northEast_High.position;
+                    }
+                    else if (randomNum <= 0.8f)
+                    {
+                        _targetLocation = _northWest_High.position;
+                    }
+                    else if (randomNum < 0.9f)
+                    {
+                        _targetLocation = _southWest_High.position;
+                    }
+                    else
+                    {
+                        _targetLocation = _southEast_High.position;
+                    }
+                }
+                else if (_targetLocation == _northEast_High.position)//if at northeast platform
+                {
+                    DropBomb();
+                    if (randomNum < 0.5f)
+                    {
+                        _targetLocation = _northWest_High.position;
+                    }
+                    else
+                    {
+                        _targetLocation = _southEast_High.position;
+                    }
+                }
+                else if (_targetLocation == _southEast_High.position)//if at southeast platform
+                {
+                    DropBomb();
+                    if (randomNum < 0.5f)
+                    {
+                        _targetLocation = _northEast_High.position;
+                    }
+                    else
+                    {
+                        _targetLocation = _southWest_High.position;
+                    }
+                }
+                else if (_targetLocation == _southWest_High.position)// if at southwest platform
+                {
+                    DropBomb();
+                    if (randomNum < 0.5f)
+                    {
+                        _targetLocation = _northWest_High.position;
+                    }
+                    else
+                    {
+                        _targetLocation = _southEast_High.position;
+                    }
+                }
+                else if (_targetLocation == _northWest_High.position)// if at northwest platform
+                {
+                    DropBomb();
+                    if (randomNum < 0.5f)
+                    {
+                        _targetLocation = _northEast_High.position;
+                    }
+                    else
+                    {
+                        _targetLocation = _southWest_High.position;
+                    }
+                }
+                else// if the boss is at the landing spot
+                {
+                    Debug.Log("Phase 2 Should be starting");
+                    isFlying = false;
+                    StartCoroutine(Takeoff());
+                    _directionToFace = directions['s'];
+                }
+            }
+            else//if the phase is ending
+            {
+                if(_targetLocation == _takeoffSpot.position)
+                {
+                    Land();
+                    Debug.Log("Phase 2 Should be ending");
+                }
                 else
                 {
                     _targetLocation = _takeoffSpot.position;
                 }
             }
+        }//End phase 2
+
+        //Attacking Logic
+        if (_targetLocation == _landingSpot.position || (_targetLocation == _takeoffSpot.position))
+        {
+            _attacking = false;
         }
+        else if (_attacking == false && pointsReached > 1)
+        {
+            _attacking = true;
+        }
+
     }// end GeneratePoint
 
     //RotorSpin function that rotates the _rotor and _tailRotor steadily
@@ -206,11 +381,13 @@ public class BossController : MonoBehaviour
         //move the boss' rigidbody towards the target point
         _rb.position = Vector3.MoveTowards(_rb.position, _targetLocation, _movementSpeed);
         //update if the boss has reached the targeted point
-        if(_rb.position == _targetLocation)
+        if(Vector3.Distance(_rb.position, _targetLocation)<_movementSpeed)
         {
-            if (_rb.position == _landingSpot.position)
+            _rb.position = _targetLocation;
+            if (_targetLocation == _landingSpot.position)
             {
                 //isFlying = false;
+                Debug.Log("Target recognized as landing spot");
                 GeneratePoint();
             }
             else
@@ -221,9 +398,53 @@ public class BossController : MonoBehaviour
         }
     }
 
-    //Dictionary that contains Euler value for cardinal directions
-    Dictionary<char, float> directions = new Dictionary<char, float>();
+    private void RotateToFace()
+    {
+        if (transform.rotation.eulerAngles.y >= 360f)
+        {
+            UnRotate360();
+        }
+        //if not facing the right direction
+        float _currentFacing = transform.rotation.eulerAngles.y;
+        float _amountToTurn = _directionToFace - _currentFacing;
+        if (Mathf.Abs(_amountToTurn) > _rotationSpeed)
+        {
+            //TODO Add Rotation logic that stops 270 degree turns
+            float _rotateAmount = _rotationSpeed * (_amountToTurn / 30);
+            transform.Rotate(0f, _rotateAmount, 0f);
+        }
+    }
+
+    private void UnRotate360()
+    {
+        transform.Rotate(0f, -360f, 0f);
+    }
+
+    private bool Phase3Check()
+    {
+        return false;
+        /*
+        if(_bossHealth.GetHealth() <= 3)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        */
+    }
+
+    private void Shoot()
+    {
+        _wb.Fire();
+    }
+
+    private void DropBomb()
+    {
+        _bombSystem.Fire();
+    }
 
     //Dictionary that contains Vector3 values associated with key points
-    Dictionary<string, Vector3> movementPoints = new Dictionary<string, Vector3>();
+    //Dictionary<string, Vector3> movementPoints = new Dictionary<string, Vector3>();
 }

@@ -11,7 +11,7 @@ public class PelletShard : ProjectileBase
     {
         IDamageable health = otherCollision.gameObject.GetComponent<IDamageable>();
         Player player = otherCollision.gameObject.GetComponent<Player>();
-        if (health != null)// && player == null)
+        if (health != null && player == null)
         {
             health.TakeDamage(_damage);
         }

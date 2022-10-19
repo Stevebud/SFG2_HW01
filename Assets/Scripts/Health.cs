@@ -60,6 +60,11 @@ public class Health : MonoBehaviour, IDamageable
         Destroy(this.gameObject);
     }
 
+    public int GetHealth()
+    {
+        return health;
+    }
+
     IEnumerator FlashFade()
     {
         Color currentColor = _damageFlashImage.color;
