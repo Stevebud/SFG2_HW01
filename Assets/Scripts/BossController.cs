@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BossController : MonoBehaviour
     [SerializeField] Health _bossHealth;
     [SerializeField] WeaponBase _wb;
     [SerializeField] WeaponBombs _bombSystem;
+    [SerializeField] Slider _bossHealthbar;
 
     [SerializeField] float _movementSpeed;
     [SerializeField] float _rotationSpeed;
@@ -57,14 +59,26 @@ public class BossController : MonoBehaviour
     //Dictionary that contains Euler value for cardinal directions
     Dictionary<char, float> directions = new Dictionary<char, float>();
 
+    private void OnEnable()
+    {
+        _bossHealth.DamageTaken += UpdateHealthbar;
+    }
+
+    private void OnDisable()
+    {
+        _bossHealth.DamageTaken -= UpdateHealthbar;
+    }
+
     private void Start()
     {
         //initialize starting values
         isFlying = false;
         _rotorSpeed = _standbyRotorSpeed;
         _targetLocation = _takeoffSpot.position;
+        _bossHealthbar.maxValue = _bossHealth.GetHealth();
+        _bossHealthbar.value = _bossHealthbar.maxValue;
 
-        phase = 2;//CHANGE
+        phase = 1;
 
         _directionToFace = transform.rotation.eulerAngles.y;
         pointsReached = 0;
@@ -140,7 +154,7 @@ public class BossController : MonoBehaviour
         else
         {
             float randomNum = Random.value;
-            if(randomNum < 0.1)
+            if(randomNum < 0.6)
             {
                 phase = 1;
             }
@@ -443,6 +457,11 @@ public class BossController : MonoBehaviour
     private void DropBomb()
     {
         _bombSystem.Fire();
+    }
+
+    void UpdateHealthbar()
+    {
+        _bossHealthbar.value = _bossHealth.GetHealth();
     }
 
     //Dictionary that contains Vector3 values associated with key points

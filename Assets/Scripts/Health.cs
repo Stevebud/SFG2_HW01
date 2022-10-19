@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField] int _maxHealth;
@@ -14,6 +15,9 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField] ParticleSystem _deathParticles;
 
     private int health;
+
+    // event that will notify observers
+    public event Action DamageTaken = delegate { };
 
     public void TakeDamage(int damageAmount)
     {
@@ -36,6 +40,8 @@ public class Health : MonoBehaviour, IDamageable
         {
             Kill();
         }
+        //notify any observers
+        DamageTaken?.Invoke();
     }
 
     // Start is called before the first frame update

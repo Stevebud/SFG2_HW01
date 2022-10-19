@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField] Text treasureValueText;
     int _treasureCount;
 
+    [SerializeField] Health _playerHealth;
+    [SerializeField] Slider _playerHealthbar;
+
     TankController _tankController;
 
     //private boolean and public property for managing invincibility
@@ -22,6 +25,16 @@ public class Player : MonoBehaviour
         set { isInvincible = value; }
     }
 
+    private void OnEnable()
+    {
+        _playerHealth.DamageTaken += UpdateHealthbar;
+    }
+
+    private void OnDisable()
+    {
+        _playerHealth.DamageTaken -= UpdateHealthbar;
+    }
+
     private void Awake()
     {
         _tankController = GetComponent<TankController>();
@@ -29,6 +42,8 @@ public class Player : MonoBehaviour
     
     private void Start()
     {
+        _playerHealthbar.maxValue = _playerHealth.GetHealth();
+        _playerHealthbar.value = _playerHealthbar.maxValue;
         _currentHealth = _maxHealth;
         _treasureCount = 0;
         treasureValueText.text = "Treasure: 0";
@@ -65,5 +80,10 @@ public class Player : MonoBehaviour
     {
         _treasureCount += amount;
         treasureValueText.text = ("Treasure: " + _treasureCount);
+    }
+
+    void UpdateHealthbar()
+    {
+        _playerHealthbar.value = _playerHealth.GetHealth();
     }
 }
